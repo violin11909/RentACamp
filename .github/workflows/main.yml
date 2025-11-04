@@ -25,7 +25,7 @@ jobs:
         working-directory: ./backend
 
       - name: Run backend tests (Jest)
-        run: npm run test
+        run: npx jest
         working-directory: ./backend
 
   frontend-checks:
