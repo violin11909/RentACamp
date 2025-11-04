@@ -13,6 +13,11 @@ const BookingSchema = new mongoose.Schema({
       trim: true,
       maxlength: [50, "Name can not be more than 50 characters"],
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        required: true
+    },
     tel: {
       type: String,
     },
