@@ -7,7 +7,7 @@ exports.getRequests = async (req, res, next) => {
   try {
     let bookingReq;
     if (req.user.role == "admin") bookingReq = await Booking.find();
-    if (req.user.role == "user") bookingReq = await Booking.find({ userName: req.user.name });
+    if (req.user.role == "user") bookingReq = await Booking.find({ user: req.user._id });
 
     res.status(200).json({ success: true, count: bookingReq.length, data: bookingReq, });
 

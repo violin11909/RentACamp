@@ -9,7 +9,7 @@ const BookingSchema = new mongoose.Schema({
     userName: {
       type: String,
       required: [true, "Please fill a user name"],
-      unique: true,
+      // unique: true,
       trim: true,
       maxlength: [50, "Name can not be more than 50 characters"],
     },

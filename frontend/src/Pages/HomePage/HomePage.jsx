@@ -7,7 +7,7 @@ function HomePage() {
     }
 
     const goToMyListPage = () => {
-        //navigate();
+        navigate("/booklistpage");
     }
 
     return (

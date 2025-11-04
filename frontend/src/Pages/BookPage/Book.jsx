@@ -1,8 +1,10 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
 import Calendar from "./Calendar";
+import Cookies from 'js-cookie';
 import { useEffect, useState } from "react";
 import { createRequest } from "../../service/booking";
+import { getMe } from "../../service/userService";
 
 const Input = ({ label, placeholder, value, setNewValue }) => (
   <div className="mb-6">
@@ -28,9 +30,24 @@ const Book = () => {
   const [userName, setUserName] = useState("");
   const [tel, setTel] = useState("");
   const [number, setNumber] = useState(null);
+  const [error, setError] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   const { state } = useLocation();
   const nav = useNavigate();
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (!token) {
+      setError("กรุณาเข้าสู่ระบบเพื่อดูรายการการจอง");
+      return;
+    }
+    getMe().then(data => {
+      if (data.success) {
+        setUserId(data.data._id);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (!state.camp) return;
@@ -71,6 +88,7 @@ const Book = () => {
     if (!check()) return;
     const data = {
       userName,
+      user: userId,
       tel,
       number,
       checkIn,
