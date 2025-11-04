@@ -97,10 +97,9 @@ const Book = () => {
     };
 
     const res = await createRequest(data);
-    alert(res.msg)
+    alert(res.msg);
+    nav("/homepage");
   };
-
-  // const navigate = useNavigate();
 
   return (
     <div className="min-h-screen flex flex-col items-center p-4 font-sans">

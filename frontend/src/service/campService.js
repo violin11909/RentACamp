@@ -19,9 +19,12 @@ export const getCampground = async (campId) => {
       method: "GET",
       headers: { "Content-Type": "application/json" }
     });
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
     return await res.json();
   } catch(err) {
     console.error("Error to get campground:", err);
-    throw new Error("Can not get campground data: " + e.message);
+    throw new Error("Can not get campground data: " + err.message);
   }
 };

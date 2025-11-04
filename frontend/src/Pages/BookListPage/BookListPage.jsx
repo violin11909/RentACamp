@@ -1,8 +1,8 @@
 import {useState, useEffect} from "react";
-import { FaArrowLeft } from "react-icons/fa6";
+import { FaArrowLeft, FaTrashCan } from "react-icons/fa6";
 import Cookies from 'js-cookie';
-import { getRequests } from "../../service/booking";
-import { getCampgrounds } from "../../service/campService";
+import { getRequests, deleteRequest } from "../../service/booking";
+import { getCampground } from "../../service/campService";
 import { getMe } from "../../service/userService";
 import { useNavigate } from "react-router-dom";
 
@@ -21,8 +21,21 @@ function BookListPage() {
         if (!token) return;
         try {
             const response = await getRequests();
-            if (response) console.log(response);
-            setBooking(response.data);
+            const bookingsData = response.data;
+
+            const bookingsWithCampName = await Promise.all(
+                bookingsData.map(async (b) => {
+                    try {
+                        const campRes = await getCampground(b.campgroundId);
+                        return {...b, campName: campRes.data.name};
+                    } catch(err) {
+                        console.error("Error fetching campground for booking:", err);
+                        return {...b, campName: "ไม่พบข้อมูลสถานที่"};
+                    }
+                })
+            );
+            console.log(bookingsWithCampName);
+            setBooking(bookingsWithCampName);
         } catch(err) {
             setError("ไม่สามารถโหลดข้อมูลการจองได้");
         } finally {
@@ -49,6 +62,23 @@ function BookListPage() {
         if (token) fetchBookings();
     }, [token]);
 
+    const handleDelete = async (id) => {
+        if (window.confirm("คุณแน่ใจหรือไม่ว่าต้องการลบการจองนี้?")) {
+            try {
+                const response = await deleteRequest(id);
+                if (response.success) {
+                    alert("ลบการจองสำเร็จ");
+                    fetchBookings();
+                } else {
+                    alert("ลบไม่สำเร็จ: " + (response.message || "เกิดข้อผิดพลาด"));
+                }
+            } catch(err) {
+                console.error("Error deleting booking:", error);
+                alert("เกิดข้อผิดพลาดในการลบการจอง");
+            }
+        }
+    };
+
     if (error) return <div className="text-red-500">{error}</div>
     
     return (
@@ -62,20 +92,36 @@ function BookListPage() {
                         <FaArrowLeft size={30}/>
                     </div>
 
-                    <div className="mt-6 flex flex-col gap-4">
+                    <div className="mt-6 flex flex-col gap-4 py-3">
+                        <h1 className="text-2xl font-semibold text-gray-800 text-center pb-4 mb-6 border-b">
+                            รายการการจอง
+                        </h1>
                         {isLoading ? (
-                            <div>Loading...</div>
+                            <div className="text-2xl text-gray-800 text-center">Loading...</div>
                         ) : (
                             booking.map((item) => (
                                 <div
                                     key={item._id}
-                                    className="flex flex-col md:flex-row justify-between items-start p-4 border rounded-lg shadow-sm hover:shadow-md">
+                                    className="flex flex-col md:flex-row justify-between items-start p-4 border rounded-lg shadow-sm hover:shadow-md relative">
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-semibold text-blue-700">สถานที่: {item.campgroundId}</h3>
+                                        <img
+                                            src="https://iili.io/Kkde2wJ.md.png"
+                                            alt="mark"
+                                            className="w-8 h-8 my-1"
+                                        />
+                                        <h3 className="text-xl font-semibold text-blue-700">สถานที่: {item.campName}</h3>
                                         <p className="text-gray-600">ผู้จอง: {item.userName}</p>
-                                        <p className="text-gray-600">เบอร์โทร: {item.tel}</p>
-                                        <p className="text-gray-600">วันที่เช็คอิน: {item.checkIn}</p>
-                                        <p className="text-gray-600">วันที่เช็คเอาท์: {item.checkOut}</p>
+                                        <p className="text-gray-600">เบอร์โทรศัพท์: {item.tel}</p>
+                                        <p className="text-gray-600">วันที่เช็คอิน: {new Date(item.checkIn).toLocaleDateString("th-TH", {
+                                            year: "numeric",
+                                            month: "long",
+                                            day: "numeric"
+                                        })}</p>
+                                        <p className="text-gray-600">วันที่เช็คเอาท์: {new Date(item.checkOut).toLocaleDateString("th-TH", {
+                                            year: "numeric",
+                                            month: "long",
+                                            day: "numeric"
+                                        })}</p>
                                     </div>
                                     <div className="mt-4 md:mt-0 md:text-right">
                                         <p className="text-lg font-bold">{item.number} คน</p>
@@ -83,6 +129,12 @@ function BookListPage() {
                                             {item.status}
                                         </p>
                                     </div>
+                                    <button
+                                        onClick={() => handleDelete(item._id)}
+                                        className="absolute bottom-4 right-4 text-gray-400 hover:text-red-600 transition-colors cursor-pointer"
+                                        aria-label="ลบการจอง">
+                                            <FaTrashCan size={20}/>
+                                    </button>
                                 </div>
                             ))
                         )}

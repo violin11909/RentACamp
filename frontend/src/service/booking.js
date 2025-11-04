@@ -46,7 +46,7 @@ export const updateRequest = async (data) => {
 
 export const deleteRequest = async (id) => {
   try {
-    const res = await fetch(`${API_URL}/booking${id}`, {
+    const res = await fetch(`${API_URL}/booking/${id}`, {
       method: "DELETE",
       credentials: "include"
     });
