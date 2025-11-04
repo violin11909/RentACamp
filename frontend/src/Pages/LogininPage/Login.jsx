@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { login } from "../../service/userService";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Login = () => {
+  const { Login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -12,12 +13,9 @@ const Login = () => {
       alert("Please fill up the information!")
       return;
     }
-
-    const res = await login(email.trim(), password);
-    if (res.success) {
-      navigate("/homepage");
-    }
-  };
+    const res = await Login(email.trim(), password);
+    if (res) navigate("/homepage");
+  }
 
   const gotoSignUp = () => {
     navigate("/signup");

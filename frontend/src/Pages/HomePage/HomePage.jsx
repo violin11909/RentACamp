@@ -1,24 +1,7 @@
-import {useState, useEffect} from "react";
-import {useNavigate} from "react-router-dom";
-import Cookies from "js-cookie";
-import {getMe} from "../../service/userService";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
     const navigate = useNavigate();
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const token = Cookies.get("token");
-        if (token) {
-            getMe().then(data => {
-                if (data.success) {
-                    console.log("user = ", data.data.name);
-                    setUser(data.data);
-                }
-            });
-        }
-    }, []);
-
     const goToMapPage = () => {
         navigate("/map-container");
     }
@@ -33,7 +16,7 @@ function HomePage() {
         >
             <div
                 className="absolute insert-0 bg-cover bg-center opacity-30"
-                style={{backgroundImage: "url('https://iili.io/Kg9FG3v.md.jpg')"}}
+                style={{ backgroundImage: "url('https://iili.io/Kg9FG3v.md.jpg')" }}
             ></div>
             {/* <img
                 src="https://iili.io/Kg9FG3v.md.jpg"

@@ -10,11 +10,10 @@ exports.protect = async (req, res, next) => {
     } else if (req.cookies && req.cookies.token) {
         token = req.cookies.token;
     }
-    console.log("token= ", token)
 
     //Make sure token exists
     if (!token || token == 'null') {
-        return res.status(401).json({success: false, msg: 'Not authorized to access this route'});
+        return res.status(401).json({ success: false, msg: 'Not authorized to access this route' });
     }
     try {
         //Verify token
@@ -23,13 +22,12 @@ exports.protect = async (req, res, next) => {
         req.user = await User.findById(decoded.id);
 
         if (!req.user) {
-            console.log('this is a problem')
-            return res.status(401).json({success: false, msg: 'User no longer exists'});
+            return res.status(401).json({ success: false, msg: 'User no longer exists' });
         }
 
         next();
     } catch (err) {
-        return res.status(401).json({success: false, msg: 'Not authorized to access this route2'});
+        return res.status(401).json({ success: false, msg: 'Not authorized to access this route2' });
     }
 }
 
@@ -38,8 +36,8 @@ exports.authorize = (roles) => {
         if (!req.user) {
             return res.status(401).json({ success: false, meg: "Not authenticated" });
         }
-        
-        const userRoles = req.user.role; 
+
+        const userRoles = req.user.role;
         const canAccess = userRoles == roles;
 
         if (!canAccess) {

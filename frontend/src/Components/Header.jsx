@@ -1,76 +1,52 @@
-import {FaSignInAlt, FaSignOutAlt, FaUser} from "react-icons/fa";
-import {Link, useNavigate} from "react-router-dom";
+import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 // import {useSelector, useDispatch} from "react-redux";
-import {getMe} from "../service/userService";
-import {useState, useEffect} from "react";
-import Cookies from "js-cookie";
+import { useAuth } from "../contexts/AuthContext";
 
 function Header() {
-    const navigate = useNavigate();
-    const [user, setUser] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const { user,Logout } = useAuth();
+    const location = useLocation();
+    const path = location.pathname; 
 
-    useEffect(() => {
-        const token = Cookies.get("token");
-        if (token) {
-            getMe().then(data => {
-                if (data.success) {
-                    console.log("user = ", data.data.name);
-                    setUser(data.data);
-                }
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-        } else {
-            setIsLoading(false);
-        }
-    }, []);
+    if(path=="/") return;
 
-    const onLogout = () => {
-        Cookies.remove("token");
-        setUser(null);
-        navigate('/');
-        window.location.reload();
-    };
-
-    return (
+    return (       
         <header className="bg-white shadow-md py-4">
             <div className="containter mx-auto flex justify-between items-center px-6">
-                <Link 
+                <Link
                     to={user ? '/homepage' : '/'}
-                    className="text-2xl font-bold text-blue-700 hover:text-blue-900 transition duration-200"    
+                    className="text-2xl font-bold text-blue-700 hover:text-blue-900 transition duration-200"
                 >
                     Booking Camp
                 </Link>
-            
+
                 <ul className="flex items-center space-x-6">
-                    {user?(
+                    {user ? (
                         <li>
-                            <button 
-                            onClick={onLogout}
-                            className="flex items-center space-x-2 text-gray-700 hover:text-red-600 transition duration-200"
-                        >
-                            <FaSignOutAlt/>
-                            <span>Logout</span>
+                            <button
+                                onClick={Logout}
+                                className="flex items-center space-x-2 text-gray-700 hover:text-red-600 transition duration-200 cursor-pointer"
+                            >
+                                <FaSignOutAlt />
+                                <span>Logout</span>
                             </button>
                         </li>
-                    ):(
+                    ) : (
                         <>
                             <li>
-                                <Link 
+                                <Link
                                     to='/login'
                                     className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition duration-200"
                                 >
-                                    <FaSignInAlt/>Login
+                                    <FaSignInAlt />Login
                                 </Link>
                             </li>
                             <li>
-                                <Link 
+                                <Link
                                     to='/signin'
-                                    className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200"    
+                                    className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200"
                                 >
-                                    <FaUser/>Sign in
+                                    <FaUser />Sign in
                                 </Link>
                             </li>
                         </>
