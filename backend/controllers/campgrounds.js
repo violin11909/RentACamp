@@ -13,7 +13,7 @@ exports.getCampgrounds = async (req, res, next) => {
       data: campgrounds,
     });
   } catch (err) {
-    res.status(400).json({ success: false, msg:err });
+    res.status(400).json({ success: false, msg: err });
     console.log(err);
   }
 };
@@ -31,7 +31,7 @@ exports.getCampground = async (req, res, next) => {
 
     res.status(200).json({ success: true, data: campground });
   } catch (err) {
-    res.status(400).json({ success: false, msg:err });
+    res.status(400).json({ success: false, msg: err });
   }
 };
 
@@ -46,7 +46,7 @@ exports.createCampground = async (req, res, next) => {
       data: campground,
     });
   } catch (err) {
-    res.status(400).json({ success: false, msg:err });
+    res.status(400).json({ success: false, msg: err });
   }
 };
 
@@ -85,7 +85,7 @@ exports.deleteCampground = async (req, res, next) => {
       res.status(400).json({ success: false });
     }
 
-    res.status(200).json({ success: true, data: {} });
+    res.status(200).json({ success: true, data: campground }); //ให้รู้ว่าลบไรไป
   } catch (err) {
     res.status(400).json({ success: false });
   }

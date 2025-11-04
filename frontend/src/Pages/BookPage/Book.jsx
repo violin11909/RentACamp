@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
 import Calendar from "./Calendar";
 import { useEffect, useState } from "react";
@@ -19,7 +19,8 @@ const Input = ({ label, placeholder, value, setNewValue }) => (
   </div>
 );
 
-const Book = ({ camp, onBack }) => {
+const Book = () => {
+  const [camp, setCamp] = useState([]);
   const [checkIn, setCheckIn] = useState(new Date());
   const [checkOut, setCheckOut] = useState(new Date());
   const [prevcheckOut, setPrevcheckOut] = useState(new Date());
@@ -27,6 +28,14 @@ const Book = ({ camp, onBack }) => {
   const [userName, setUserName] = useState("");
   const [tel, setTel] = useState("");
   const [number, setNumber] = useState(null);
+
+  const { state } = useLocation();
+  const nav = useNavigate();
+
+  useEffect(() => {
+    if (!state.camp) return;
+    setCamp(state.camp);
+  }, [state.camp]);
 
   useEffect(() => {
     const diff = (checkOut - checkIn) / (24 * 60 * 60 * 1000);
@@ -82,7 +91,7 @@ const Book = ({ camp, onBack }) => {
         <div className="flex flex-row w-full gap-5 items-center justify-center relative p-5 mb-5">
           <div
             className="hover:bg-gray-200 cursor-pointer rounded-full p-2 absolute left-[-20px] top-[-5px] lg:left-0 lg:top-5"
-            onClick={onBack}
+            onClick={() => nav(-1)}
           >
             <FaArrowLeft className="lg:w-10 lg:h-10 md:w-8 md:h-8  w-6 h-6" />
           </div>

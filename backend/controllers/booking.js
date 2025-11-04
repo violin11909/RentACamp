@@ -5,28 +5,14 @@ const Booking = require("../models/Booking");
 //@access  Public
 exports.getRequests = async (req, res, next) => {
   try {
-    console.log('user = ', req.user)
-    if (!req.user) {
-      return res.status(400).json({
-        success: false,
-        msg: "You don't have permission to access this route",
-      });
-    }
     let bookingReq;
-    if (req.user.role == "admin") {
-      bookingReq = await Booking.find();
-    }
-    if (req.user.role == "user") {
-      bookingReq = await Booking.find({ userName: req.user.name });
-    }
+    if (req.user.role == "admin") bookingReq = await Booking.find();
+    if (req.user.role == "user") bookingReq = await Booking.find({ userName: req.user.name });
 
-    res.status(200).json({
-      success: true,
-      count: bookingReq.length,
-      data: bookingReq,
-    });
+    res.status(200).json({ success: true, count: bookingReq.length, data: bookingReq, });
+
   } catch (err) {
-    res.status(400).json({ success: false });
+    res.status(400).json({ success: false, msg: err });
     console.log(err);
   }
 };
@@ -36,23 +22,24 @@ exports.getRequests = async (req, res, next) => {
 //@access  Public
 exports.createRequest = async (req, res, next) => {
   try {
-    //req.body
-    const {userName, tel} = req.body;
-    const alreadyBooked = await Booking.find({userName, tel});
+    const { userName, campgroundId, checkIn, checkOut } = req.body;
+    const newCheckIn = new Date(checkIn);
+    const newCheckOut = new Date(checkOut);
+    const alreadyBooked = await Booking.find({ userName, campgroundId });
 
     if (alreadyBooked.length > 0) {
-      return res
-        .status(400)
-        .json({ success: false, msg: "You already have a booking" });
+      const isOverlap = alreadyBooked.some(b => {
+        const oldCheckIn = new Date(b.checkIn);
+        const oldCheckOut = new Date(b.checkOut);
+
+        return newCheckIn <= oldCheckOut && newCheckOut >= oldCheckIn;
+      });
+
+      if (isOverlap) return res.status(400).json({ success: false, msg: "Booking failed: Dates overlap with an existing booking" });
     }
 
     const createReq = await Booking.create(req.body);
-
-    res.status(200).json({
-      success: true,
-      data: createReq,
-      msg: "Booking successful",
-    });
+    res.status(200).json({ success: true, data: createReq, msg: "Booking successful", });
   } catch (err) {
     res.status(400).json({ success: false, msg: err });
     console.log(err);
@@ -70,7 +57,7 @@ exports.updateRequest = async (req, res, next) => {
       {
         new: true, //ให้ return document ค่าหลังจาก update แล้ว
         runValidators: true, //ให้ตรวจสอบข้อมูลใหม่ตาม schema ก่อนอัปเดต ถ้าไม่ใส่ Mongoose จะ ไม่เช็ก validation และอัปเดตลงฐานข้อมูลได้เลย
-      } 
+      }
     );
 
     if (!bookingReq) {
@@ -92,14 +79,11 @@ exports.deleteRequest = async (req, res, next) => {
   try {
     const bookingReq = await Booking.findByIdAndDelete(req.params.id);
 
-    if (!bookingReq) {
-      res
-        .status(400)
-        .json({ success: false, msd: "Booking request not found" });
-    }
+    if (!bookingReq) res.status(400).json({ success: false, msg: "Booking request not found" });
 
-    res.status(200).json({ success: true, data: {} });
+    res.status(200).json({ success: true, data: bookingReq });
+
   } catch (err) {
-    res.status(400).json({ success: false });
+    res.status(400).json({ success: false, msg: err });
   }
 };

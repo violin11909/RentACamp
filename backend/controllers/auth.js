@@ -28,7 +28,7 @@ exports.register = async (req, res, next) => {
 //@access  Public
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(email, password )
+  console.log(email, password)
 
   //Validate email & password
   if (!email || !password) {
@@ -87,7 +87,7 @@ exports.logout = async (req, res, next) => {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true
   });
-  
+
   res.status(200).json({
     success: true,
     data: {}
@@ -97,10 +97,13 @@ exports.logout = async (req, res, next) => {
 //@desc    Get current Logged in user
 //@route   POST /api/v1/auth/me
 //@access  Private
-exports.getMe = async(req, res, next) => {
-  const user = await User.findById(req.user.id);
-  res.status(200).json({
-    success: true,
-    data: user
-  });
+exports.getMe = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    res.status(200).json({ success: true, data: user });
+  } catch (err) {
+    res.status(400).json({ success: false });
+    console.error(err)
+
+  }
 }

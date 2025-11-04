@@ -1,25 +1,23 @@
-import {Outlet} from "react-router-dom";
-import MyGoogleMap from './Pages/GoogleMap/MyGoogleMap'; 
+import { Outlet, useNavigate } from "react-router-dom";
 import Header from './Components/Header';
-
-const containerStyle = {
-  width: "400px",
-  height: "400px"
-};
-
-const center = {
-  lat: 13.7563, // พิกัดกรุงเทพ
-  lng: 100.5018
-};
+import { useAuth } from "./contexts/AuthContext";
+import { useEffect } from "react";
 
 function App() {
+  const { user, isUserLoading } = useAuth();
+  const nav = useNavigate();
+  useEffect(() => {
+    if (isUserLoading) return; // ถ้ายังโหลดอยู่, ไม่ต้องทำอะไร
+    if (!user) nav('/');
+
+  }, [user, isUserLoading]);
 
   return (
     <>
-      <Header/>
+      <Header />
       <main>
         {/* <MyGoogleMap></MyGoogleMap> */}
-        <Outlet/>
+        <Outlet />
       </main>
     </>
   )
