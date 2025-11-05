@@ -23,7 +23,7 @@ const RenderStep = ({
         <div className="flex flex-col items-center justify-center w-full gap-3">
           <input
             type="text"
-            placeholder="email"
+            placeholder="Email"
             value={email}
             className={inputClass}
             onChange={(e) => {
@@ -32,7 +32,7 @@ const RenderStep = ({
           />
           <input
             type="password"
-            placeholder="password"
+            placeholder="Password"
             value={password}
             className={inputClass}
             onChange={(e) => {
@@ -42,7 +42,7 @@ const RenderStep = ({
 
           <input
             type="password"
-            placeholder="confirm password"
+            placeholder="Confirm Password"
             value={confirmPassword}
             className={inputClass}
             onChange={(e) => {
@@ -64,7 +64,7 @@ const RenderStep = ({
         <div className="flex flex-col items-center justify-center w-full gap-3">
           <input
             type="text"
-            placeholder="name"
+            placeholder="Name"
             value={name}
             className={inputClass}
             onChange={(e) => {
@@ -73,7 +73,7 @@ const RenderStep = ({
           />
           <input
             type="text"
-            placeholder="phone number"
+            placeholder="Phone Number"
             value={phone}
             className={inputClass}
             onChange={(e) => {

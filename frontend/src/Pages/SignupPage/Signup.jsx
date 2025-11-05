@@ -38,8 +38,8 @@ const Signup = () => {
       try {
         const res = await register(newUser);
         if (res.success) {
-          alert("success");
-          // navigate('/map') go tp homepage
+          alert("Success");
+          navigate('/');
         } else {
           alert(res.message || "Registration failed");
         }
