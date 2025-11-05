@@ -15,7 +15,7 @@ function HomePage() {
             className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center relative"
         >
             <div
-                className="absolute inset-0 bg-cover bg-center opacity-80"
+                className="absolute inset-0 bg-cover bg-center object-cover"
                 style={{ backgroundImage: "url('https://iili.io/Kg9FG3v.md.jpg')" }}
             ></div>
             
