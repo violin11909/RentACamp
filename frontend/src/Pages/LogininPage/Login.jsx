@@ -31,7 +31,7 @@ const Login = () => {
 
       <div className="fixed inset-0 z-50 flex items-center justify-center transition-opacity backdrop-blur-xs">
         <div className="h-100 aspect-square flex flex-col items-center justify-center bg-white gap-3 p-20 rounded-lg">
-          <h1 className="text-3xl mb-3 font-bold">Login</h1>
+          <h1 className="text-3xl mb-3 font-bold text-center">Login to "RentACamp"</h1>
           <input
             type="text"
             placeholder="Email"

@@ -1,5 +1,5 @@
 const inputClass =
-  "text-md text-black border border-gray-600 p-2 w-full focus:border-teal-400 focus:border-2 outline-none";
+  "rounded-lg text-md text-black border border-gray-600 p-2 w-full focus:border-teal-400 focus:border-2 outline-none";
 
 const RenderStep = ({
   step,
@@ -51,7 +51,7 @@ const RenderStep = ({
           />
 
           <button
-            className="py-3 w-full bg-blue-400 hover:bg-blue-500 text-white text-md cursor-pointer"
+            className="rounded-lg font-bold py-3 w-full bg-blue-400 hover:bg-blue-500 text-white text-md cursor-pointer"
             onClick={next}
           >
             Next
