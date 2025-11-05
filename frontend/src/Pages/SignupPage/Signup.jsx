@@ -38,8 +38,8 @@ const Signup = () => {
       try {
         const res = await register(newUser);
         if (res.success) {
-          alert("success");
-          // navigate('/map') go tp homepage
+          alert("Success");
+          navigate('/');
         } else {
           alert(res.message || "Registration failed");
         }
@@ -94,7 +94,7 @@ const Signup = () => {
       />
 
       <div className="fixed inset-0 z-50 flex items-center justify-center transition-opacity backdrop-blur-xs">
-        <div className="h-100 aspect-square flex flex-col items-center justify-center bg-white gap-3 p-20 relative">
+        <div className="h-100 aspect-square rounded-lg flex flex-col items-center justify-center bg-white gap-3 p-20 relative">
           <div
             className="w-15 aspect-square rounded-full top-5 left-5 absolute flex justify-center items-center hover:bg-gray-300 cursor-pointer"
             onClick={onBack}
@@ -102,7 +102,7 @@ const Signup = () => {
             <FaArrowLeft size={30} />
           </div>
 
-          <h1 className="text-3xl mb-3 relative">Sign up </h1>
+          <h1 className="font-bold text-3xl mb-3 relative text-center">Sign up to "RentACamp"</h1>
           <RenderStep
             step={step}
             email={email}

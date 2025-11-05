@@ -10,6 +10,9 @@ import GoogleMapContainer from "./Pages/GoogleMap/GoogleMapContainer.jsx";
 import BookListPage from "./Pages/BookListPage/BookListPage.jsx";
 import Book from './Pages/BookPage/Book.jsx';
 
+import MainLayout from "./MainLayout.jsx";
+import AuthLayout from "./AuthLayout.jsx";
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider } from './contexts/AuthContext.jsx'; // 👈 1. Import
@@ -21,37 +24,47 @@ let router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        index: true,
-        element: <Login />
+        element: <AuthLayout/>,
+        children: [
+          {
+            index: true,
+            element: <Login />
+          },
+          {
+            path: "/signup",
+            Component: Signup,
+          }
+        ]
       },
       {
-        path: "/",
-        Component: Login,
+        element: <MainLayout/>,
+        children: [
+          {
+            path: "/camp",
+            Component: Camp,
+          },
+          {
+            path: "/homepage",
+            Component: HomePage
+          },
+          {
+            path: "/map-container",
+            Component: GoogleMapContainer
+          },
+          {
+            path: "/booklistpage",
+            Component: BookListPage
+          },
+          {
+            path: "/bookpage",
+            Component: Book
+          },
+          {
+            path: "/bookpage/:id",
+            Component: Book
+          }
+        ]
       },
-      {
-        path: "/camp",
-        Component: Camp,
-      },
-      {
-        path: "/signup",
-        Component: Signup,
-      },
-      {
-        path: "/homepage",
-        Component: HomePage
-      },
-      {
-        path: "/map-container",
-        Component: GoogleMapContainer
-      },
-      {
-        path: "/booklistpage",
-        Component: BookListPage
-      },
-      {
-        path: "/bookpage",
-        Component: Book
-      }
     ]
   },
 ]);

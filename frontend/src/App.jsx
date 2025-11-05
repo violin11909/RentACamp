@@ -14,11 +14,8 @@ function App() {
 
   return (
     <>
-      <Header />
-      <main>
-        {/* <MyGoogleMap></MyGoogleMap> */}
-        <Outlet />
-      </main>
+      {/* <MyGoogleMap></MyGoogleMap> */}
+      <Outlet />
     </>
   )
 }

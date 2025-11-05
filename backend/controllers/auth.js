@@ -28,7 +28,7 @@ exports.register = async (req, res, next) => {
 //@access  Public
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(email, password)
+  // console.log(email, password)
 
   //Validate email & password
   if (!email || !password) {

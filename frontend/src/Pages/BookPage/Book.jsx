@@ -1,8 +1,11 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
 import Calendar from "./Calendar";
+import Cookies from 'js-cookie';
 import { useEffect, useState } from "react";
-import { createRequest } from "../../service/booking";
+import { createRequest, getRequest, updateRequest } from "../../service/booking";
+import { getMe } from "../../service/userService";
+import { getCampground } from "../../service/campService";
 
 const Input = ({ label, placeholder, value, setNewValue }) => (
   <div className="mb-6">
@@ -20,6 +23,9 @@ const Input = ({ label, placeholder, value, setNewValue }) => (
 );
 
 const Book = () => {
+  const {id} = useParams();
+  const isEditMode = Boolean(id);
+
   const [camp, setCamp] = useState([]);
   const [checkIn, setCheckIn] = useState(new Date());
   const [checkOut, setCheckOut] = useState(new Date());
@@ -28,14 +34,59 @@ const Book = () => {
   const [userName, setUserName] = useState("");
   const [tel, setTel] = useState("");
   const [number, setNumber] = useState(null);
+  const [error, setError] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   const { state } = useLocation();
   const nav = useNavigate();
 
   useEffect(() => {
-    if (!state.camp) return;
-    setCamp(state.camp);
-  }, [state.camp]);
+    const token = Cookies.get("token");
+    if (!token) {
+      setError("กรุณาเข้าสู่ระบบเพื่อดูรายการการจอง");
+      return;
+    }
+    getMe().then(data => {
+      if (data.success) {
+        setUserId(data.data._id);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    const loadData = async () => {
+      if (isEditMode) {
+        try {
+          const bookingRes = await getRequest(id);
+          if (!bookingRes.success) throw new Error("ไม่พบข้อมูลการจอง");
+          
+          const data = bookingRes.data;
+          setUserName(data.userName);
+          setTel(data.tel);
+          setNumber(data.number);
+          setCheckIn(new Date(data.checkIn));
+          setCheckOut(new Date(data.checkOut));
+          setPrevcheckOut(new Date(data.checkOut));
+          setUserId(data.user);
+
+          const campRes = await getCampground(data.campgroundId);
+          if (campRes.success) {
+            setCamp(campRes.data);
+          }
+        } catch(err) {
+          setError(err.message);
+        }
+      } else {
+        if (!state || !state.camp) {
+          alert("ไม่พบข้อมูลแคมป์");
+          nav(-1);
+          return;
+        }
+        setCamp(state.camp);
+      }
+    };
+    loadData();
+  }, [id, isEditMode, state, nav]);
 
   useEffect(() => {
     const diff = (checkOut - checkIn) / (24 * 60 * 60 * 1000);
@@ -71,18 +122,33 @@ const Book = () => {
     if (!check()) return;
     const data = {
       userName,
+      user: userId,
       tel,
       number,
       checkIn,
       checkOut,
       campgroundId: camp._id,
     };
+    
+    try {
+      let res;
+      if (isEditMode) {
+        const updateData = {...data, _id: id};
+        res = await updateRequest(updateData);
+        alert(res.msg || "อัปเดตข้อมูลสำเร็จ!");
+      } else {
+        const res = await createRequest(data);
+        alert(res.msg);
+      }
 
-    const res = await createRequest(data);
-    alert(res.msg)
+      if (res.success) {
+        nav("/homepage");
+      }
+    } catch(err) {
+      console.error("Submit error:", err);
+      alert("เกิดข้อผิดพลาด: " + err.message);
+    }
   };
-
-  // const navigate = useNavigate();
 
   return (
     <div className="min-h-screen flex flex-col items-center p-4 font-sans">
@@ -157,7 +223,7 @@ const Book = () => {
             className="bg-[#3A6F43] hover:bg-green-900 text-white font-bold py-3 w-1/4 mb-3 rounded-sm  cursor-pointer hover:scale-101  hover:shadow-black/40 ease-in-out transition duration-100"
             onClick={submit}
           >
-            ยืนยัน
+            {isEditMode ? "บันทึกการเปลี่ยนแปลง" : "ยืนยันการจอง"}
           </button>
         </div>
       </div>

@@ -1,5 +1,5 @@
 const inputClass =
-  "text-md text-black border border-gray-600 p-2 w-full focus:border-teal-400 focus:border-2 outline-none";
+  "rounded-lg text-md text-black border border-gray-600 p-2 w-full focus:border-teal-400 focus:border-2 outline-none";
 
 const RenderStep = ({
   step,
@@ -23,7 +23,7 @@ const RenderStep = ({
         <div className="flex flex-col items-center justify-center w-full gap-3">
           <input
             type="text"
-            placeholder="email"
+            placeholder="Email"
             value={email}
             className={inputClass}
             onChange={(e) => {
@@ -32,7 +32,7 @@ const RenderStep = ({
           />
           <input
             type="password"
-            placeholder="password"
+            placeholder="Password"
             value={password}
             className={inputClass}
             onChange={(e) => {
@@ -42,7 +42,7 @@ const RenderStep = ({
 
           <input
             type="password"
-            placeholder="confirm password"
+            placeholder="Confirm Password"
             value={confirmPassword}
             className={inputClass}
             onChange={(e) => {
@@ -51,7 +51,7 @@ const RenderStep = ({
           />
 
           <button
-            className="py-3 w-full bg-blue-400 hover:bg-blue-500 text-white text-md cursor-pointer"
+            className="rounded-lg font-bold py-3 w-full bg-blue-400 hover:bg-blue-500 text-white text-md cursor-pointer"
             onClick={next}
           >
             Next
@@ -64,7 +64,7 @@ const RenderStep = ({
         <div className="flex flex-col items-center justify-center w-full gap-3">
           <input
             type="text"
-            placeholder="name"
+            placeholder="Name"
             value={name}
             className={inputClass}
             onChange={(e) => {
@@ -73,7 +73,7 @@ const RenderStep = ({
           />
           <input
             type="text"
-            placeholder="phone number"
+            placeholder="Phone Number"
             value={phone}
             className={inputClass}
             onChange={(e) => {

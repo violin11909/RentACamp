@@ -17,7 +17,7 @@ function Header() {
                     to={user ? '/homepage' : '/'}
                     className="text-2xl font-bold text-blue-700 hover:text-blue-900 transition duration-200"
                 >
-                    Booking Camp
+                    RentACamp
                 </Link>
 
                 <ul className="flex items-center space-x-6">

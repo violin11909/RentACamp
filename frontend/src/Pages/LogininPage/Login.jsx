@@ -30,28 +30,28 @@ const Login = () => {
       />
 
       <div className="fixed inset-0 z-50 flex items-center justify-center transition-opacity backdrop-blur-xs">
-        <div className="h-100 aspect-square flex flex-col items-center justify-center bg-white gap-3 p-20">
-          <h1 className="text-3xl mb-3">Login</h1>
+        <div className="h-100 aspect-square flex flex-col items-center justify-center bg-white gap-3 p-20 rounded-lg">
+          <h1 className="text-3xl mb-3 font-bold text-center">Login to "RentACamp"</h1>
           <input
             type="text"
-            placeholder="email"
+            placeholder="Email"
             value={email}
-            className="text-md text-black border-1 border-gray-600 p-2 w-full focus:border-teal-400 focus:border-2 outline-none"
+            className="rounded-lg text-md text-black border border-gray-600 p-2 w-full focus:border-teal-400 focus:border-2 outline-none"
             onChange={(e) => {
               setEmail(e.target.value);
             }}
           />
           <input
             type="password"
-            placeholder="password"
+            placeholder="Password"
             value={password}
-            className="text-md text-black border-1 border-gray-600 p-2 w-full focus:border-teal-400 focus:border-2 outline-none"
+            className="rounded-lg text-md text-black border border-gray-600 p-2 w-full focus:border-teal-400 focus:border-2 outline-none"
             onChange={(e) => {
               setPassword(e.target.value);
             }}
           />
           <button
-            className="py-3 w-full bg-blue-400 hover:bg-blue-500 text-white text-md cursor-pointer"
+            className="font-bold rounded-lg py-3 w-full bg-blue-400 hover:bg-blue-500 text-white text-md cursor-pointer"
             onClick={sendLogin}
           >
             Login
@@ -62,7 +62,7 @@ const Login = () => {
               className="cursor-pointer hover:bg-gray-300 px-2 pb-0.5 rounded-md"
               onClick={gotoSignUp}
             >
-              sign up
+              Sign up
             </span>
           </div>
         </div>
