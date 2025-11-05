@@ -83,8 +83,7 @@ describe("Campground API", () => {
 
         });
 
-
-        it("should return status 400 when campgorund Id does not exist", async () => {
+        it("should return status 404 when campgorund Id does not exist", async () => {
             const mockData = { _id: "1234", name: "campground A" };
 
             const req = { params: { id: "123" }, };
@@ -95,12 +94,13 @@ describe("Campground API", () => {
             await campgroundController.getCampground(req, res, next);
 
             expect(Campground.findById).toHaveBeenCalledWith("123");
-            expect(res.status).toHaveBeenCalledWith(400);
-            expect(res.json).toHaveBeenCalledWith({ success: false });
-
+            expect(res.status).toHaveBeenCalledWith(404);
+            expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+                success: false
+            }));
         });
 
-        it("should return status 400 when an error occurs", async () => {
+        it("should return status 500 when an error occurs", async () => {
             const req = { params: { id: "1234" }, };
             const res = { status: jest.fn().mockReturnThis(), count: jest.fn(), json: jest.fn(), };
             const next = jest.fn();
@@ -109,8 +109,8 @@ describe("Campground API", () => {
             await campgroundController.getCampground(req, res, next);
 
             expect(Campground.findById).toHaveBeenCalledWith(req.params.id);
-            expect(res.status).toHaveBeenCalledWith(400);
-            expect(res.json).toHaveBeenCalledWith({ success: false, msg: expect.any(Error) });
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({ success: false, msg: expect.any(String) });
         });
     });
 
