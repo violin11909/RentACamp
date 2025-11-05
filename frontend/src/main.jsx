@@ -58,6 +58,10 @@ let router = createBrowserRouter([
           {
             path: "/bookpage",
             Component: Book
+          },
+          {
+            path: "/bookpage/:id",
+            Component: Book
           }
         ]
       },

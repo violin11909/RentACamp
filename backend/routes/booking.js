@@ -1,6 +1,7 @@
 const express = require("express");
 const {
   getRequests,
+  getRequest,
   createRequest,
   deleteRequest,
   updateRequest,
@@ -15,6 +16,7 @@ router
   .post(protect, createRequest);
 router
   .route("/:id")
+  .get(protect, getRequest)
   .put(protect, updateRequest)
   .delete(protect, authorize("user", "admin"), deleteRequest);
 

@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import { FaArrowLeft, FaTrashCan } from "react-icons/fa6";
+import { FaArrowLeft, FaTrashCan, FaPencil } from "react-icons/fa6";
 import Cookies from 'js-cookie';
 import { getRequests, deleteRequest } from "../../service/booking";
 import { getCampground } from "../../service/campService";
@@ -79,6 +79,11 @@ function BookListPage() {
         }
     };
 
+    const handleEdit = (bookingId) => {
+        console.log("แก้ไข ID:", bookingId);
+        nav(`/bookpage/${bookingId}`);
+    };
+
     if (error) return <div className="text-red-500">{error}</div>
     
     return (
@@ -129,6 +134,12 @@ function BookListPage() {
                                             {item.status}
                                         </p>
                                     </div>
+                                    <button
+                                        onClick={() => handleEdit(item._id)}
+                                        className="absolute bottom-14 right-4 text-gray-400 hover:text-blue-600 transition-color cursor-pointer"
+                                        aria-label="แก้ไขข้อมูลการจอง">
+                                        <FaPencil size={20}/>
+                                    </button>
                                     <button
                                         onClick={() => handleDelete(item._id)}
                                         className="absolute bottom-4 right-4 text-gray-400 hover:text-red-600 transition-colors cursor-pointer"

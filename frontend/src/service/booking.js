@@ -28,14 +28,36 @@ export const getRequests = async () => {
   }
 };
 
+export const getRequest = async (id) => {
+  try {
+    const res = await fetch(`${API_URL}/booking/${id}`, {
+      method: "GET",
+      credentials: "include"
+    });
+    return res.json();
+  } catch(err) {
+    console.error("Get booking error:", err);
+    throw new Error("Can not get booking: " + err.message);
+  }
+};
+
 export const updateRequest = async (data) => {
   try {
-    const res = await fetch(`${API_URL}/booking`, {
+    const {_id} = data;
+    if (!_id) {
+      throw new Error("ไม่พบ Booking ID (_id) ในข้อมูลที่ส่งไปอัปเดต");
+    }
+
+    const res = await fetch(`${API_URL}/booking/${_id}`, {
       method: "PUT",
       body: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
       credentials: "include"
     });
+
+    if (!res.ok) {
+      throw new Error(`Server ตอบกลับมาว่ามีปัญหา: ${res.status}`);
+    }
 
     return await res.json();
   } catch(e) {
