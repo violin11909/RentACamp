@@ -3,12 +3,18 @@ import Header from "./Components/Header";
 
 function MainLayout() {
     return (
-        <>
-            <Header/>
-            <main>
-                <Outlet/>
+        <div className="flex flex-col min-h-screen overflow-x-hidden">
+            <Header />
+            <main className="relative min-w-screen flex flex-grow justify-center bg-gray-200">
+                <img
+                    src="https://iili.io/Kg9FG3v.md.jpg"
+                    alt="background-login"
+                    className="absolute w-full h-full object-cover"
+                />
+                <Outlet />
             </main>
-        </>
+        </div>
+
     );
 }
 

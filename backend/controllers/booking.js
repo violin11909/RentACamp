@@ -86,6 +86,7 @@ exports.updateRequest = async (req, res, next) => {
     res.status(200).json({ success: true, data: bookingReq });
   } catch (err) {
     res.status(400).json({ success: false });
+    console.error(err)
   }
 };
 

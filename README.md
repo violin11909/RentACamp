@@ -15,4 +15,3 @@ information includes the campground name, address, and telephone number.
 7. The system shall allow the admin to view any campground bookings.
 8. The system shall allow the admin to edit any campground bookings.
 9. The system shall allow the admin to delete any campground bookings.
-test something
