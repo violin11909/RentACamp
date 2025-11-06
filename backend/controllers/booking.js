@@ -7,12 +7,29 @@ exports.getRequests = async (req, res, next) => {
   try {
     let bookingReq;
     if (req.user.role == "admin") bookingReq = await Booking.find();
-    if (req.user.role == "user") bookingReq = await Booking.find({ userName: req.user.name });
+    if (req.user.role == "user") bookingReq = await Booking.find({ user: req.user._id });
 
     res.status(200).json({ success: true, count: bookingReq.length, data: bookingReq, });
-
   } catch (err) {
     res.status(400).json({ success: false, msg: err });
+    console.log(err);
+  }
+};
+
+//@desc    Get one Request
+//@route   GET /api/v1/booking/:id
+//@access  Public
+exports.getRequest = async (req, res, next) => {
+  try {
+    const booking = await Booking.findById(req.params.id);
+
+    if (!booking) {
+      return res.status(404).json({success: false, message: "Booking not found"});
+    }
+
+    res.status(200).json({success: true, data: booking});
+  } catch (err) {
+    res.status(500).json({ success: false, msg: err });
     console.log(err);
   }
 };
@@ -47,7 +64,7 @@ exports.createRequest = async (req, res, next) => {
 };
 
 //@desc    Update one campground
-//@route   PUT /api/v1/booking
+//@route   PUT /api/v1/booking/:id
 //@access  Private
 exports.updateRequest = async (req, res, next) => {
   try {
