@@ -74,13 +74,9 @@ const Camp = () => {
     isError: isWeatherError,   
   } = useQuery({
     // "Key" สำหรับ Cache: ต้องไม่ซ้ำกันสำหรับข้อมูลแต่ละชุด
-    // เราใช้ ID ของ camp เป็นส่วนหนึ่งของ key
-    // ถ้า camp ยังไม่มี (เป็น undefined), React Query จะไม่ทำงาน
     queryKey: ['weather', camp?._id],
-
-    // "Function" ที่ใช้ fetch ข้อมูล: มันจะเรียก `fetchWeather(camp)` ให้เราเอง
     queryFn: () => fetchWeather(camp),
-
+    
     // "เงื่อนไข": สั่งให้ Query นี้ทำงาน (enabled) ต่อเมื่อ `camp` มีข้อมูลแล้วเท่านั้น
     enabled: !!camp, //camp มี object → !!camp = true,  camp = null → !!camp = false
   });

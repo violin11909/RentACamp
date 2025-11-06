@@ -7,7 +7,7 @@ function App() {
   const { user, isUserLoading } = useAuth();
   const nav = useNavigate();
   useEffect(() => {
-    if (isUserLoading) return; // ถ้ายังโหลดอยู่, ไม่ต้องทำอะไร
+    if (isUserLoading) return; 
     if (!user) nav('/');
 
   }, [user, isUserLoading]);

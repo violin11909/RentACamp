@@ -22,7 +22,7 @@ export const getRequests = async () => {
       credentials: "include"
     });
     return res.json();
-  } catch(e) {
+  } catch (e) {
     console.error("Get bookings error:", e);
     throw new Error("Can not get booking list: " + e.message);
   }
@@ -35,32 +35,32 @@ export const getRequest = async (id) => {
       credentials: "include"
     });
     return res.json();
-  } catch(err) {
+  } catch (err) {
     console.error("Get booking error:", err);
     throw new Error("Can not get booking: " + err.message);
   }
 };
 
-export const updateRequest = async (data) => {
+export const updateRequest = async (bookingReq, updatedStatus) => {
   try {
-    const {_id} = data;
+    const { _id } = bookingReq;
     if (!_id) {
       throw new Error("ไม่พบ Booking ID (_id) ในข้อมูลที่ส่งไปอัปเดต");
     }
 
     const res = await fetch(`${API_URL}/booking/${_id}`, {
       method: "PUT",
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...bookingReq, status: updatedStatus }),
       headers: { "Content-Type": "application/json" },
       credentials: "include"
     });
-
+    
     if (!res.ok) {
       throw new Error(`Server ตอบกลับมาว่ามีปัญหา: ${res.status}`);
     }
 
     return await res.json();
-  } catch(e) {
+  } catch (e) {
     console.error("Update booking error: ", e);
     throw new Error("Can not update the booking: " + e.message);
   }
@@ -73,7 +73,7 @@ export const deleteRequest = async (id) => {
       credentials: "include"
     });
     return await res.json();
-  } catch(e) {
+  } catch (e) {
     console.error("Delete booking error: ", e);
     throw new Error("Can not delete the booking: " + e.message);
   }
