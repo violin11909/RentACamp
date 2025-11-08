@@ -4,6 +4,8 @@ import Weather from '../WeatherPage/Weather.jsx';
 import { fetchWeather } from '../../service/weather.js';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation, useNavigate } from "react-router-dom";
+import { TiWeatherPartlySunny } from "react-icons/ti";
+
 
 const Item = ({ icon, detail }) => (
   <li className="flex items-center space-x-3">
@@ -59,7 +61,6 @@ const ImageSlide = ({ camp, goToSlide, currentIndex }) => {
   );
 };
 
-
 const Camp = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [checkInTime, setcheckInTime] = useState("");
@@ -68,20 +69,11 @@ const Camp = () => {
   const nav = useNavigate();
 
   const camp = state?.camp;
-  const {
-    data: weather,           
-    isLoading: isWeatherLoading,
-    isError: isWeatherError,   
-  } = useQuery({
-    // "Key" สำหรับ Cache: ต้องไม่ซ้ำกันสำหรับข้อมูลแต่ละชุด
-    queryKey: ['weather', camp?._id],
-    queryFn: () => fetchWeather(camp),
-    
-    // "เงื่อนไข": สั่งให้ Query นี้ทำงาน (enabled) ต่อเมื่อ `camp` มีข้อมูลแล้วเท่านั้น
-    enabled: !!camp, //camp มี object → !!camp = true,  camp = null → !!camp = false
+  const { data: weather, isLoading: isWeatherLoading, isError: isWeatherError, } = useQuery({
+    queryKey: ['weather', camp?._id], queryFn: () => fetchWeather(camp), enabled: !!camp,
   });
+
   useEffect(() => {
-    // ถ้าไม่มี camp (เช่น user รีเฟรชหน้านี้ หรือเข้าตรงๆ)
     if (!camp) {
       nav("/map-container");
       return;
@@ -117,7 +109,7 @@ const Camp = () => {
   const goToSlide = (slideIndex) => { setCurrentIndex(slideIndex); };
 
   return (
-    <div className="bg-[#e4eaf2] p-5 md:p-7 min-h-screen overflow-auto grid grid-cols-1 md:grid-cols-5 gap-x-5 ">
+    <div className="p-5 md:p-7 min-h-screen overflow-auto grid grid-cols-1 md:grid-cols-5 gap-x-5">
 
       <div className="max-w-5xl bg-white rounded-lg shadow-lg px-10 py-3 relative md:col-span-3 col-span-1">
         <div className="p-6 py-4 pb-3 relative">
@@ -137,7 +129,7 @@ const Camp = () => {
                 alt="mark"
                 className="w-8 h-8"
               />
-              <p className="text-sm text-gray-900">
+              <p className="text-sm text-gray-800">
                 {camp.address} {camp.district} {camp.province}{" "}
                 {camp.postalcode}
               </p>
@@ -155,7 +147,7 @@ const Camp = () => {
 
 
 
-            <div className="lg:col-span-2 bg-white text-black shadow-md rounded-sm relative hover:scale-101 hover:shadow-black/40 ease-in-out transition duration-100">
+            <div className="lg:col-span-2 bg-white text-gray-800 shadow-md rounded-sm relative hover:scale-101 hover:shadow-black/40 ease-in-out transition duration-100">
               <Header img="./src/assets/data.png" title="ข้อมูล" />
 
               <ul className="grid grid-cols-2 lg:grid-cols-1 space-y-4 text-sm px-4 py-3">
@@ -167,7 +159,7 @@ const Camp = () => {
           </div>
         </div>
 
-        <div className="bg-white text-black mx-6 mb-2 rounded-sm shadow-md hover:scale-101  hover:shadow-black/40 ease-in-out transition duration-100">
+        <div className="bg-white text-gray-800 mx-6 mb-2 rounded-sm shadow-md hover:scale-101  hover:shadow-black/40 ease-in-out transition duration-100">
           <Header img="./src/assets/info.png" title="รายละเอียด" />
           <p className="text-sm leading-relaxed p-4 pb-5">{camp.detail}</p>
         </div>
@@ -183,9 +175,12 @@ const Camp = () => {
       </div>
 
 
+      <div className="col-span-1 md:col-span-2 gap-y-5 overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden z-5 p-3 pt-6 rounded-md bg-[#e4eaf2] text-gray-800 mt-5 min-[880px]:mt-0">
+        <div className="text-2xl font-bold mb-4 text-center flex flex-row w-full justify-center gap-5 items-center">
+          <TiWeatherPartlySunny size={30}/>
+          พยากรณ์อากาศ 5 วัน
 
-      <div className="col-span-1 md:col-span-2 gap-y-5 overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden mt-3">
-        <h2 className="text-2xl font-bold mb-4 text-center">พยากรณ์อากาศ 5 วัน</h2>
+        </div>
 
         {isWeatherLoading && <p className="text-center">กำลังโหลดพยากรณ์อากาศ...</p>}
 
