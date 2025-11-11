@@ -151,7 +151,7 @@ const Book = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center p-4 font-sans">
+    <div className="min-h-screen flex flex-col items-center p-4 font-sans relative z-50">
       <div className="w-full max-w-6xl mx-auto bg-white p-8 rounded-xl shadow-sm">
         {/* head */}
         <div className="flex flex-row w-full gap-5 items-center justify-center relative p-5 mb-5">
