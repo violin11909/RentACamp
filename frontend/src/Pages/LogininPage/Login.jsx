@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -25,10 +25,10 @@ const Login = () => {
  
   return (
     <>
-
       <div className="fixed inset-0 z-50 flex items-center justify-center transition-opacity backdrop-blur-xs">
         <div className="h-100 aspect-square flex flex-col items-center justify-center bg-white gap-3 p-20 rounded-lg">
-          <h1 className="text-3xl mb-3 font-bold text-center">RentACamp</h1>
+          <h1 className="text-3xl font-bold text-center">Login to</h1>
+          <h1 className="text-3xl font-extrabold text-green-600 mb-3 text-center">RentACamp</h1>
           <input
             type="text"
             placeholder="Email"

@@ -17,7 +17,7 @@ router
 router
   .route("/:id")
   .get(getCampground)
-  .put(protect, authorize("admin"), updateCampground)
-  .delete(protect, authorize("admin"), deleteCampground);
+  .put(protect, authorize(["admin"]), updateCampground)
+  .delete(protect, authorize(["admin"]), deleteCampground);
 
 module.exports = router;

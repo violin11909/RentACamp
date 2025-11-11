@@ -17,8 +17,8 @@ function HomePage() {
         <div className="flex items-center">
 
             <div className="relative z-10 flex flex-col items-center text-center bg-white p-10 rounded-lg shadow-xl text-gray-800 max-w-md w-full">
-                <h1 className="text-4xl font-extrabold text-blue-700 mb-8">
-                    ยินดีต้อนรับสู่ <span className="text-green-600">RentACamp!</span>
+                <h1 className="text-4xl font-extrabold text-green-600 mb-8">
+                    ยินดีต้อนรับสู่ <span className="text-blue-700">RentACamp!</span>
                 </h1>
                 <p className="text-lg text-gray-600 mb-8">
                     เว็บจองจุดกางเต็นท์ทั่วประเทศไทย
