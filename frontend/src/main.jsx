@@ -6,7 +6,7 @@ import Camp from "./Pages/CampPage/Camp.jsx";
 import Login from "./Pages/LogininPage/Login.jsx";
 import Signup from "./Pages/SignupPage/Signup.jsx";
 import HomePage from "./Pages/HomePage/HomePage.jsx";
-import GoogleMapContainer from "./Pages/GoogleMap/GoogleMapContainer.jsx";
+import MyGoogleMap from "./Pages/GoogleMap/MyGoogleMap.jsx";
 import BookListPage from "./Pages/BookListPage/BookListPage.jsx";
 import Book from './Pages/BookPage/Book.jsx';
 
@@ -24,7 +24,7 @@ let router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        element: <AuthLayout/>,
+        element: <AuthLayout />,
         children: [
           {
             index: true,
@@ -37,27 +37,32 @@ let router = createBrowserRouter([
         ]
       },
       {
-        element: <MainLayout/>,
+        element: <MainLayout />,
         children: [
           {
             path: "/camp",
-            Component: Camp,
+            children: [
+              {
+                index: true, 
+                Component: Camp,
+              },
+              {
+                path: "bookpage", 
+                Component: Book
+              },
+            ]
           },
           {
             path: "/homepage",
             Component: HomePage
           },
           {
-            path: "/map-container",
-            Component: GoogleMapContainer
+            path: "/google-maps",
+            Component: MyGoogleMap
           },
           {
             path: "/booklistpage",
             Component: BookListPage
-          },
-          {
-            path: "/bookpage",
-            Component: Book
           },
           {
             path: "/bookpage/:id",
