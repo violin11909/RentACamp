@@ -26,16 +26,17 @@ const Book = () => {
   const {id} = useParams();
   const isEditMode = Boolean(id);
 
-  const [camp, setCamp] = useState([]);
+  const [camp, setCamp] = useState();
   const [checkIn, setCheckIn] = useState(new Date());
   const [checkOut, setCheckOut] = useState(new Date());
   const [prevcheckOut, setPrevcheckOut] = useState(new Date());
 
   const [userName, setUserName] = useState("");
   const [tel, setTel] = useState("");
-  const [number, setNumber] = useState(null);
+  const [number, setNumber] = useState("");
   const [error, setError] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [role, setRole] = useState(null);
 
   const { state } = useLocation();
   const nav = useNavigate();
@@ -49,6 +50,7 @@ const Book = () => {
     getMe().then(data => {
       if (data.success) {
         setUserId(data.data._id);
+        setRole(data.data.role);
       }
     });
   }, []);
@@ -137,12 +139,13 @@ const Book = () => {
         res = await updateRequest(updateData);
         alert(res.msg || "อัปเดตข้อมูลสำเร็จ!");
       } else {
-        const res = await createRequest(data);
+        res = await createRequest(data);
         alert(res.msg);
       }
 
       if (res.success) {
-        nav("/homepage");
+        if (role == "user") nav("/homepage");
+        if (role == "admin") nav("/booklistpage");
       }
     } catch(err) {
       console.error("Submit error:", err);
@@ -150,8 +153,11 @@ const Book = () => {
     }
   };
 
+  if (!camp) return null;
+  if (error) return <div className="text-red-500">{error}</div>
+
   return (
-    <div className="min-h-screen flex flex-col items-center p-4 font-sans">
+    <div className="min-h-screen flex flex-col items-center p-4 font-sans relative z-50">
       <div className="w-full max-w-6xl mx-auto bg-white p-8 rounded-xl shadow-sm">
         {/* head */}
         <div className="flex flex-row w-full gap-5 items-center justify-center relative p-5 mb-5">

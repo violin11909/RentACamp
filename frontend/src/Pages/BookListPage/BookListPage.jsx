@@ -11,10 +11,7 @@ function BookListPage() {
     const nav = useNavigate();
     const queryClient = useQueryClient();
 
-    const [camp, setCamp] = useState(null);
-    const [editingBooking, setEditingBooking] = useState(null);
-
-    const filterList = ["ทั้งหมด", "รออนุมติ", "อนุมติเเล้ว", "ปฎิเสธเเล้ว"];
+    const filterList = ["ทั้งหมด", "รออนุมัติ", "อนุมัติเเล้ว", "ปฎิเสธเเล้ว"];
     const [selectedFilter, setSelectedFilter] = useState("ทั้งหมด");
 
     const { data: bookingList, isLoading: isLoading, isError: isError, } = useQuery({ queryKey: ['booking-list'], queryFn: () => fetchBookings(), enabled: !!user, });
@@ -61,7 +58,6 @@ function BookListPage() {
         return bookingsWithCampName;
     };
 
-
     const handleDelete = async (id) => {
         if (window.confirm("คุณแน่ใจหรือไม่ว่าต้องการลบการจองนี้?")) {
             try {
@@ -90,7 +86,7 @@ function BookListPage() {
     const displayedList = useMemo(() => {
         if (!bookingList) return [];
         if (selectedFilter === "รออนุมัติ") return bookingList.filter((item) => item.status === "pending");
-        if (selectedFilter === "อนุมติเเล้ว") return bookingList.filter((item) => item.status === "approved");
+        if (selectedFilter === "อนุมัติเเล้ว") return bookingList.filter((item) => item.status === "approved");
         if (selectedFilter === "ปฎิเสธเเล้ว") return bookingList.filter((item) => item.status === "declined");
         return bookingList;
 
@@ -99,7 +95,6 @@ function BookListPage() {
     const displayThDate = (date) => {
         return new Date(date).toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" })
     }
-
 
     if (!user) return;
     if (isError) return <div className="text-red-500">เกิดข้อผิดพลาดในการโหลดข้อมูลการจอง</div>
@@ -120,19 +115,18 @@ function BookListPage() {
                             {user.role == "admin" ? "รายการการจองทั้งหมด" : "รายการการจองของฉัน"}
                         </h1>
 
-                        <div className="w-full flex flex-row cursor-pointer border-b-1 border-gray-300 overflow-x-auto">
+                        <div className="w-full flex flex-row cursor-pointer border-b border-gray-300 overflow-x-auto">
                             {filterList.map((item) => (
                                 <div
+                                    key={item}
                                     onClick={() => setSelectedFilter(item)}
-                                    className={`flex-shrink-0 p-4 w-30 text-center ${selectedFilter == item ? "border-b-2 border-blue-500 text-gray-800" : "text-gray-400"}`}>
+                                    className={`shrink-0 p-4 w-30 text-center ${selectedFilter == item ? "border-b-2 border-blue-500 text-gray-800" : "text-gray-400"}`}>
                                     {item}
                                 </div>
-
                             ))}
                         </div>
 
                         {isLoading ? (<div className="text-2xl text-gray-800 text-center">Loading...</div>)
-
                             : (displayedList.length === 0 ? (
                                 <div className="font-bold flex items-center justify-center h-20 text-2xl text-red-500">
                                     ไม่มีข้อมูล
@@ -146,7 +140,7 @@ function BookListPage() {
                                     return (
                                         <div
                                             key={item._id}
-                                            className="flex flex-col md:flex-row justify-between items-start p-4 border-[1px] border-gray-300 rounded-lg shadow-sm shadow-gray-400 hover:shadow-md relative ">
+                                            className="flex flex-col md:flex-row justify-between items-start p-4 border border-gray-300 rounded-lg shadow-sm shadow-gray-400 hover:shadow-md relative ">
                                             <div >
                                                 <div className="flex items-center gap-3 mb-2">
                                                     <img
@@ -178,6 +172,25 @@ function BookListPage() {
                                                         aria-label="แก้ไขข้อมูลการจอง">
                                                         <FaPencil size={20} />
                                                     </button>
+
+                                                    <button
+                                                        onClick={() => handleDelete(item._id)}
+                                                        className="text-gray-400 hover:text-red-600 transition-colors cursor-pointer"
+                                                        aria-label="ลบการจอง">
+                                                        <FaTrashCan size={20} />
+                                                    </button>
+                                                </div>
+                                            )}
+
+                                            {user.role == "admin" && (
+                                                <div className="absolute right-0 bottom-0 flex flex-row gap-5 p-5">
+                                                    <button
+                                                        onClick={() => handleEdit(item._id)}
+                                                        className="text-gray-400 hover:text-blue-600 transition-color cursor-pointer"
+                                                        aria-label="แก้ไขข้อมูลการจอง">
+                                                        <FaPencil size={20} />
+                                                    </button>
+
                                                     <button
                                                         onClick={() => handleDelete(item._id)}
                                                         className="text-gray-400 hover:text-red-600 transition-colors cursor-pointer"
@@ -185,30 +198,21 @@ function BookListPage() {
                                                         <FaTrashCan size={20} />
                                                     </button>
 
-                                                </div>
-                                            )}
-
-                                            {user.role == "admin" && (
-                                                <div className="absolute right-0 bottom-0 flex flex-row gap-5 p-5">
                                                     <button
                                                         onClick={() => toggleStatus(item, "approved")}
                                                         disabled={status == "declined"}
-                                                        className={`${status == "approved" ? "bg-white border-2 border-[#64a60b] text-[#64a60b]" : "text-white bg-[#64a60b] "} font-bold cursor-pointer p-1 px-3 flex flex-row gap-2 justify-center items-center w-28 h-10 ${status == "declined" ? "bg-gray-300" : ""}`}    >
-                                                        {status == "approved" ? "อนุมติเเล้ว" : "อนุมัติ"}
+                                                        className={`rounded-md ${status == "approved" ? "bg-white border-2 border-[#64a60b] text-[#64a60b]" : "text-white bg-[#64a60b] "} font-bold cursor-pointer p-1 px-3 flex flex-row gap-2 justify-center items-center w-28 h-10 ${status == "declined" ? "bg-gray-300" : ""}`}    >
+                                                        {status == "approved" ? "อนุมัติเเล้ว" : "อนุมัติ"}
                                                     </button>
 
                                                     <button
                                                         onClick={() => toggleStatus(item, "declined")}
                                                         disabled={status == "approved"}
-                                                        className={`${status == "declined" ? "bg-white border-2 border-[#d20013]  text-[#d20013] " : "text-white bg-[#d20013] "} font-bold cursor-pointer p-1 px-3 flex flex-row gap-2 justify-center items-center w-28 h-10 ${status == "approved" ? "bg-gray-300" : ""}`}    >
+                                                        className={`rounded-md ${status == "declined" ? "bg-white border-2 border-[#d20013]  text-[#d20013] " : "text-white bg-[#d20013] "} font-bold cursor-pointer p-1 px-3 flex flex-row gap-2 justify-center items-center w-28 h-10 ${status == "approved" ? "bg-gray-300" : ""}`}    >
                                                         {status == "declined" ? "ปฎิเสธเเล้ว" : "ปฎิเสธ"}
                                                     </button>
-
                                                 </div>
                                             )}
-
-
-
                                         </div>
                                     );
                                 }))
@@ -216,7 +220,6 @@ function BookListPage() {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 }
