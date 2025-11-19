@@ -60,9 +60,6 @@ function MyGoogleMap() {
     googleMapsApiKey: "AIzaSyB_roEK7oWwe1gChFz9Zd2GxYoylPfdQSs",
   });
 
-
-
-
   const getAllCampData = async () => {
     const allCampgrounds = await getCampgrounds();
     setCampgrounds(allCampgrounds.data);
