@@ -74,7 +74,7 @@ const Camp = () => {
 
   useEffect(() => {
     if (!camp) {
-      nav("/map-container");
+      nav("/google-maps");
       return;
     }
     setcheckInTime(`${getThaiTime(camp.startCheckIn)} - ${getThaiTime(camp.endCheckIn)}`);
@@ -82,7 +82,7 @@ const Camp = () => {
   }, [camp]);
 
   const goToBookPage = () => {
-    nav('/bookpage', { state: { camp } });
+    nav('bookpage', { state: { camp } });
   }
 
   const getInfoItems = () => {
