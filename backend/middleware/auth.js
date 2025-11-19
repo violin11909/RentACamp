@@ -32,13 +32,17 @@ exports.protect = async (req, res, next) => {
 }
 
 exports.authorize = (roles) => {
+    if (typeof roles === 'string') {
+        roles = [roles];
+    }
+
     return (req, res, next) => {
         if (!req.user) {
-            return res.status(401).json({ success: false, meg: "Not authenticated" });
+            return res.status(401).json({ success: false, msg: "Not authenticated" });
         }
 
         const userRoles = req.user.role;
-        const canAccess = userRoles == roles;
+        const canAccess = roles.includes(userRoles);
 
         if (!canAccess) {
             return res.status(403).json({

@@ -56,7 +56,7 @@ exports.createRequest = async (req, res, next) => {
     }
 
     const createReq = await Booking.create(req.body);
-    res.status(200).json({ success: true, data: createReq, msg: "Booking successful", });
+    res.status(201).json({ success: true, data: createReq, msg: "Booking successful", });
   } catch (err) {
     res.status(400).json({ success: false, msg: err });
     console.log(err);

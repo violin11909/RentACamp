@@ -6,7 +6,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useLocation, useNavigate } from "react-router-dom";
 import { TiWeatherPartlySunny } from "react-icons/ti";
 
-
 const Item = ({ icon, detail }) => (
   <li className="flex items-center space-x-3">
     <div className="w-7 aspect-square">
@@ -145,8 +144,6 @@ const Camp = () => {
               currentIndex={currentIndex}
             />
 
-
-
             <div className="lg:col-span-2 bg-white text-gray-800 shadow-md rounded-sm relative hover:scale-101 hover:shadow-black/40 ease-in-out transition duration-100">
               <Header img="./src/assets/data.png" title="ข้อมูล" />
 
@@ -174,7 +171,6 @@ const Camp = () => {
         </div>
       </div>
 
-
       <div className="col-span-1 md:col-span-2 gap-y-5 overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden z-5 p-3 pt-6 rounded-md bg-[#e4eaf2] text-gray-800 mt-5 min-[880px]:mt-0">
         <div className="text-2xl font-bold mb-4 text-center flex flex-row w-full justify-center gap-5 items-center">
           <TiWeatherPartlySunny size={30}/>
@@ -189,8 +185,6 @@ const Camp = () => {
           <div> {weather.map((day, index) => (<Weather key={index} day={day} />))}</div>
         )}
       </div>
-
-
     </div>
   );
 };

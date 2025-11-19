@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
 import RenderStep from "./RenderStep";
 
-
 const Signup = () => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
@@ -87,7 +86,6 @@ const Signup = () => {
 
   return (
     <>
-
       <div className="fixed inset-0 z-50 flex items-center justify-center transition-opacity backdrop-blur-xs">
         <div className="h-100 aspect-square rounded-lg flex flex-col items-center justify-center bg-white gap-3 p-20 relative">
           <div
@@ -97,7 +95,8 @@ const Signup = () => {
             <FaArrowLeft size={30} />
           </div>
 
-          <h1 className="font-bold text-3xl mb-3 relative text-center">Sign up</h1>
+          <h1 className="font-bold text-3xl relative text-center">Sign up to</h1>
+          <h1 className="text-3xl font-extrabold text-green-600 mb-3 text-center">RentACamp</h1>
           <RenderStep
             step={step}
             email={email}
@@ -116,7 +115,6 @@ const Signup = () => {
           />
         </div>
       </div>
-      
     </>
   );
 };

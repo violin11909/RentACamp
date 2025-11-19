@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 const Weather = ({ day }) => {
-
     const [temp, setTemp] = useState(null);
     const date = new Date(day.dt * 1000).toLocaleDateString("th-TH", {
         weekday: "short",
@@ -15,8 +14,6 @@ const Weather = ({ day }) => {
         }
         setTemp(getCelsius(day.main.temp));
     }, [])
-
-
 
     return (
         <div className="grid grid-cols-4 items-center p-4 bg-white rounded-lg shadow mb-3 hover:shadow-md hover:bg-gray-100">
@@ -32,4 +29,5 @@ const Weather = ({ day }) => {
         </div>
     );
 }
+
 export default Weather;

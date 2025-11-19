@@ -41,7 +41,7 @@ exports.getCampground = async (req, res, next) => {
 exports.createCampground = async (req, res, next) => {
   try {
     const campground = await Campground.create(req.body);
-    res.status(200).json({
+    res.status(201).json({
       success: true,
       data: campground,
     });
