@@ -57,8 +57,11 @@ function MyGoogleMap() {
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: "AIzaSyB_roEK7oWwe1gChFz9Zd2GxYoylPfdQSs",
   });
+
+
+
 
   const getAllCampData = async () => {
     const allCampgrounds = await getCampgrounds();
@@ -108,7 +111,13 @@ function MyGoogleMap() {
     return <div>Loading...</div>;
   }
 
-  return (
+
+  const { isLoaded } = useJsApiLoader({
+  id: "google-map-script",
+  googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+  });
+
+ return (
     <GoogleMap mapContainerStyle={containerStyle} center={mapCenter} zoom={6}>
       {userLocation && (
         <Marker

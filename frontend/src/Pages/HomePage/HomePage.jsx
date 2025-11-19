@@ -5,7 +5,7 @@ function HomePage() {
     const { user } = useAuth();
     const navigate = useNavigate();
     const goToMapPage = () => {
-        navigate("/map-container");
+        navigate("/google-maps");
     }
 
     const goToMyListPage = () => {
