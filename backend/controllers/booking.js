@@ -6,8 +6,15 @@ const Booking = require("../models/Booking");
 exports.getRequests = async (req, res, next) => {
   try {
     let bookingReq;
-    if (req.user.role == "admin") bookingReq = await Booking.find();
-    if (req.user.role == "user") bookingReq = await Booking.find({ user: req.user._id });
+    const role = req.user.role;
+    const campgroundId = req.params.campgroundId;
+
+    if (role == "admin") bookingReq = await Booking.find()
+    else if (role == "user") {
+      if (campgroundId) bookingReq = await Booking.find({ user: req.user._id, campgroundId: campgroundId });
+      else bookingReq = await Booking.find({ user: req.user._id });
+    }
+    else return res.status(401).json({ success: false });
 
     res.status(200).json({ success: true, count: bookingReq.length, data: bookingReq, });
   } catch (err) {
@@ -24,10 +31,10 @@ exports.getRequest = async (req, res, next) => {
     const booking = await Booking.findById(req.params.id);
 
     if (!booking) {
-      return res.status(404).json({success: false, message: "Booking not found"});
+      return res.status(404).json({ success: false, message: "Booking not found" });
     }
 
-    res.status(200).json({success: true, data: booking});
+    res.status(200).json({ success: true, data: booking });
   } catch (err) {
     res.status(500).json({ success: false, msg: err });
     console.log(err);
@@ -72,8 +79,8 @@ exports.updateRequest = async (req, res, next) => {
       req.params.id,
       req.body,
       {
-        new: true, //ให้ return document ค่าหลังจาก update แล้ว
-        runValidators: true, //ให้ตรวจสอบข้อมูลใหม่ตาม schema ก่อนอัปเดต ถ้าไม่ใส่ Mongoose จะ ไม่เช็ก validation และอัปเดตลงฐานข้อมูลได้เลย
+        new: true,
+        runValidators: true,
       }
     );
 
