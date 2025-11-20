@@ -64,7 +64,7 @@ function BookListPage() {
                 const response = await deleteRequest(id);
                 if (response.success) {
                     alert("ลบการจองสำเร็จ");
-                    fetchBookings();
+                    queryClient.invalidateQueries({ queryKey: ['booking-list'] });
                 } else {
                     alert("ลบไม่สำเร็จ: " + (response.message || "เกิดข้อผิดพลาด"));
                 }

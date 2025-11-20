@@ -1,4 +1,5 @@
 const Campground = require("../models/Campground");
+const Booking = require("../models/Booking");
 
 //@desc    Get all campgrounds
 //@route   GET /api/v1/campgrounds
@@ -79,11 +80,14 @@ exports.updateCampground = async (req, res, next) => {
 //@access  Private
 exports.deleteCampground = async (req, res, next) => {
   try {
-    const campground = await Campground.findByIdAndDelete(req.params.id);
+    const campground = await Campground.findById(req.params.id);
 
     if (!campground) {
       res.status(400).json({ success: false });
     }
+
+    await Booking.deleteMany({campgroundId: req.params.id});
+    await Campground.deleteOne({_id: req.params.id});
 
     res.status(200).json({ success: true, data: campground }); //ให้รู้ว่าลบไรไป
   } catch (err) {
