@@ -1,4 +1,4 @@
-﻿# SW_DEV_PRAC_finalProject
+﻿# RentACamp
 
 Project#2: Campground Booking
 1. The system shall allow a user to register by specifying the name, telephone number, email, and

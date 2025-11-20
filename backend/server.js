@@ -28,13 +28,13 @@ app.use(cookieParser());
 //Route files
 const campgrounds = require('./routes/campgrounds');
 const auth = require('./routes/auth');
-const booking = require('./routes/booking');
+const bookings = require('./routes/booking');
 
 
 //Mount routers
 app.use('/api/v1/campgrounds', campgrounds);
 app.use('/api/v1/auth', auth);
-app.use('/api/v1/booking', booking);
+app.use('/api/v1/bookings', bookings);
 
 
 const PORT = process.env.PORT || 5000;

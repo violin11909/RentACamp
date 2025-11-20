@@ -2,7 +2,7 @@ import { API_URL } from "./api";
 
 export const createRequest = async (data) => {
   try {
-    const res = await fetch(`${API_URL}/booking`, {
+    const res = await fetch(`${API_URL}/bookings`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
@@ -17,7 +17,7 @@ export const createRequest = async (data) => {
 
 export const getRequests = async () => {
   try {
-    const res = await fetch(`${API_URL}/booking`, {
+    const res = await fetch(`${API_URL}/bookings`, {
       method: "GET",
       credentials: "include"
     });
@@ -30,7 +30,7 @@ export const getRequests = async () => {
 
 export const getRequest = async (id) => {
   try {
-    const res = await fetch(`${API_URL}/booking/${id}`, {
+    const res = await fetch(`${API_URL}/bookings/${id}`, {
       method: "GET",
       credentials: "include"
     });
@@ -48,7 +48,7 @@ export const updateRequest = async (bookingReq, updatedStatus) => {
       throw new Error("ไม่พบ Booking ID (_id) ในข้อมูลที่ส่งไปอัปเดต");
     }
 
-    const res = await fetch(`${API_URL}/booking/${_id}`, {
+    const res = await fetch(`${API_URL}/bookings/${_id}`, {
       method: "PUT",
       body: JSON.stringify({ ...bookingReq, status: updatedStatus }),
       headers: { "Content-Type": "application/json" },
@@ -68,7 +68,7 @@ export const updateRequest = async (bookingReq, updatedStatus) => {
 
 export const deleteRequest = async (id) => {
   try {
-    const res = await fetch(`${API_URL}/booking/${id}`, {
+    const res = await fetch(`${API_URL}/bookings/${id}`, {
       method: "DELETE",
       credentials: "include"
     });
