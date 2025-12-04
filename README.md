@@ -1,4 +1,15 @@
 ﻿# RentACamp
+A full-stack campground booking web application built with a collaborative team of developers.
+
+My contribution
+- Implemented backend authentication and authorization logic
+- Developed login, sign-up pages
+- Integrated booking list page with backend API
+- Create API tests using Postman Runner
+
+Team & Credits
+- (Me) Sira Sasisakulporn - Lead Developer, Designer, Full-stack contributor
+- Pachara Auikim - Designer, Full-stack contributor
 
 Project#2: Campground Booking
 1. The system shall allow a user to register by specifying the name, telephone number, email, and
@@ -15,3 +26,4 @@ information includes the campground name, address, and telephone number.
 7. The system shall allow the admin to view any campground bookings.
 8. The system shall allow the admin to edit any campground bookings.
 9. The system shall allow the admin to delete any campground bookings.
+
